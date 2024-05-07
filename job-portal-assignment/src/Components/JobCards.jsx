@@ -51,7 +51,16 @@ const JobDescriptionContainer = styled(Box)`
   );
 `;
 
-const JobCards = () => {
+const JobCards = ({
+  jobName,
+  description,
+  logo,
+  role,
+  location,
+  maxSalary,
+  minExp,
+  maxExp,
+}) => {
   return (
     <JobCardContainer>
       <JobCardContent>
@@ -73,31 +82,21 @@ const JobCards = () => {
           >
             <img
               alt="Remy Sharp"
-              src="https://give.do/static/img/logos/19WJ/9aad65c4-4ada-437d-a056-cd099c1e88ef.png"
+              src={logo}
               style={{ width: "100%", height: "100%", objectFit: "content" }}
             />
           </Box>
           <Box sx={{ textAlign: "left", flex: 1 }}>
             <Typography color="#8B8B84" fontSize="13px" fontWeight="600">
-              Name
+              {jobName.toUpperCase()}
             </Typography>
-            <Typography fontSize="14px">Role</Typography>
-            <Typography fontSize="11px">Location</Typography>
+            <Typography fontSize="14px">{role.toUpperCase()}</Typography>
+            <Typography fontSize="11px">{location.toUpperCase()}</Typography>
           </Box>
         </Box>
-        <JobTitle>Salary </JobTitle>
+        <JobTitle>{`Estimated Salary:$${maxSalary}K`} </JobTitle>
         <JobDescriptionContainer>
-          <JobDescription>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, when an unknown printer took a galley of type
-            and scrambled it to make a type specimen book. It has survived not
-            only five centuries, but also the leap into electronic typesetting,
-            remaining essentially unchanged. It was popularised in the 1960s
-            with the release of Letraset sheets containing Lorem Ipsum passages,
-            and more recently with desktop publishing software like Aldus
-            PageMaker including versions of Lorem Ipsum.
-          </JobDescription>
+          <JobDescription>{description}</JobDescription>
         </JobDescriptionContainer>
         <Box mb="15px">
           <Button>View Job</Button>
@@ -106,7 +105,7 @@ const JobCards = () => {
           <Typography color="#8B8B84" fontWeight="600">
             Minimum Experience
           </Typography>
-          <Typography>Experience</Typography>
+          <Typography>{`${minExp ?? maxExp ? maxExp : 0} Years`}</Typography>
         </Box>
         <Box>
           <StyledButton

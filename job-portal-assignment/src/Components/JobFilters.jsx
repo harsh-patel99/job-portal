@@ -6,10 +6,13 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import { TextField } from "@mui/material";
 
+import { FilterOptions } from "../filterData";
 
 const animatedComponents = makeAnimated();
 
-const JobFilters = () => {
+const JobFilters = ({ values, handleChange, setFieldValue, data }) => {
+  const { roles, location, experience, remote, salary, companyName } = values;
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
@@ -21,8 +24,11 @@ const JobFilters = () => {
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
+            name="roles"
+            onChange={(value) => setFieldValue("roles", value)}
+            value={roles}
             isMulti
-            options={[]}
+            options={FilterOptions(data, "jobRole")}
             placeholder="Roles"
           />
         </Grid>
@@ -30,8 +36,11 @@ const JobFilters = () => {
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
+            name="location"
+            onChange={(value) => setFieldValue("location", value)}
+            value={location}
             isMulti
-            options={[]}
+            options={FilterOptions(data, "location")}
             placeholder="Location"
           />
         </Grid>
@@ -39,17 +48,26 @@ const JobFilters = () => {
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
+            name="experience"
+            onChange={(value) => setFieldValue("experience", value)}
+            value={experience}
             isMulti
             options={[]}
-            placeholder="Minimum Experience"
+            placeholder="Experience"
           />
         </Grid>
         <Grid item xs={6} sm={4} md={2}>
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
+            name="remote"
+            onChange={(value) => setFieldValue("remote", value)}
+            value={remote}
             isMulti
-            options={[]}
+            options={[
+              { label: "Remote", value: "Remote" },
+              { label: "On Site", value: "On Site" },
+            ]}
             placeholder="Remote"
           />
         </Grid>
@@ -57,6 +75,9 @@ const JobFilters = () => {
           <Select
             closeMenuOnSelect={false}
             components={animatedComponents}
+            name="salary"
+            onChange={(value) => setFieldValue("salary", value)}
+            value={salary}
             isMulti
             options={[]}
             placeholder="Minimum Base Pay"
@@ -66,6 +87,9 @@ const JobFilters = () => {
           <TextField
             id="outlined-basic"
             size="small"
+            name="companyName"
+            value={companyName}
+            onChange={handleChange}
             label="Search Company here"
             variant="outlined"
           />
