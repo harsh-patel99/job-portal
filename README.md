@@ -1,7 +1,9 @@
 # Frontend Interview Assignment: Candidate Application Platform
 
-## Description
+## Deployed on Netifly
+  - Deployed Url: https://stately-fenglisu-2d5672.netlify.app/
 
+## Description
 Job portal dashboard where user can search for the desired job with Infinte Scrolling and filters like
   - Job Role
   - Location
