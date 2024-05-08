@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import HourglassEmptyRoundedIcon from "@mui/icons-material/HourglassEmptyRounded";
 import BoltIcon from "@mui/icons-material/Bolt";
+import '../App.css'
 
 const JobCardContainer = styled(Card)`
   margin: 20px;
@@ -23,8 +24,8 @@ const JobCardContent = styled(CardContent)`
   padding: 20px;
 `;
 
-const JobTitle = styled(Typography)`
-  font-size: 18px;
+const Salary = styled(Typography)`
+  font-size: 15px;
   font-weight: bold;
   margin-bottom: 10px;
 `;
@@ -38,6 +39,8 @@ const StyledButton = styled(Button)`
 &:hover {
   background-color: #55efc4;
 });
+margin-top: 20px;
+background-color: #55efc4;
 color: black;
 `;
 
@@ -59,7 +62,7 @@ const JobCards = ({
   location,
   maxSalary,
   minExp,
-  maxExp,
+  minSalary,
 }) => {
   return (
     <JobCardContainer>
@@ -94,7 +97,7 @@ const JobCards = ({
             <Typography fontSize="11px">{location.toUpperCase()}</Typography>
           </Box>
         </Box>
-        <JobTitle>{`Estimated Salary:$${maxSalary}K`} </JobTitle>
+        <Salary>{`Estimated Salary: $${minSalary ?? 0}K - $${maxSalary}k`} </Salary>
         <JobDescriptionContainer>
           <JobDescription>{description}</JobDescription>
         </JobDescriptionContainer>
@@ -103,16 +106,15 @@ const JobCards = ({
         </Box>
         <Box textAlign="left">
           <Typography color="#8B8B84" fontWeight="600">
-            Experience
+            Minimum Experience
           </Typography>
-          <Typography>{`${minExp ? minExp : 0} - ${maxExp ? maxExp : 0} Years`}</Typography>
+          <Typography>{`${minExp ? minExp : 0} Years`}</Typography>
         </Box>
         <Box>
           <StyledButton
             fullWidth
             variant="contained"
-            sx={{ marginTop: "20px", backgroundColor: "#55efc4" }}
-            startIcon={<BoltIcon />}
+            startIcon={<BoltIcon sx={{color:'yellow'}} />}
           >
             Easy Apply
           </StyledButton>

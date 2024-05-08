@@ -22,33 +22,45 @@ export const fetchJobs = createAsyncThunk("fetchJobs", async (limit) => {
 //logic for filtering the data
 const getFilteredData = (data, filters) => {
   return data.filter((jobs) => {
-    if (filters.roles?.length) {
-      return filters.roles.some((role) => role.value === jobs.jobRole);
-    }
-    if (filters.location?.length) {
-      return filters.location.some(
-        (location) => location.value === jobs.location
-      );
-    }
-    if (filters.remote?.length) {
-      return filters.remote.find((val) => val.value !== "Remote")
-        ? jobs.location !== "remote"
-        : jobs.location === "remote";
-    }
-    if (filters.companyName) {
-      return jobs.companyName
-        .toLowerCase()
-        .includes(filters.companyName.toLowerCase());
-    }
-    if (filters.experience?.length) {
-      const years = filters.experience.map((exp) => exp.value);
-      return jobs.minExp <= Math.max(...years);
-    }
-    if (filters.salary?.length) {
-      const salary = filters.salary.map((pay) => pay.value);
-      return jobs.maxJdSalary <= Math.max(...salary);
-    }
-    return true;
+    // if (filters.roles?.length) {
+    //   return filters.roles.some((role) => role.value === jobs.jobRole);
+    // }
+    // if (filters.location?.length) {
+    //   return filters.location.some(
+    //     (location) => location.value === jobs.location
+    //   );
+    // }
+    // if (filters.remote?.length) {
+    //   return filters.remote.find((val) => val.value !== "Remote")
+    //     ? jobs.location !== "remote"
+    //     : jobs.location === "remote";
+    // }
+    // if (filters.companyName) {
+    //   return jobs.companyName
+    //     .toLowerCase()
+    //     .includes(filters.companyName.toLowerCase());
+    // }
+    // if (filters.experience?.length) {
+    //   const years = filters.experience.map((exp) => exp.value);
+    //   return jobs.minExp <= Math.max(...years);
+    // }
+    // if (filters.salary?.length) {
+    //   const salary = filters.salary.map((pay) => pay.value);
+    //   return jobs.maxJdSalary <= Math.max(...salary);
+    // }
+    // return true
+
+    const seletedYearsOfExperience = filters.experience.length ? filters.experience.map((exp) => exp.value) : [];
+    const salary = filters.salary?.map((pay) => pay.value);
+    return (
+      (filters.roles.length === 0 || filters.roles.some((role) => role.value === jobs.jobRole)) &&
+      (filters.location.length === 0 || filters.location.some((location) => location.value === jobs.location)) &&
+      (filters.remote.length === 0 || filters.remote.find(type => type.value !== "Remote") ? jobs.location !== "remote" : jobs.location === "remote") &&
+      (filters.companyName || jobs.companyName.toLowerCase().includes(filters.companyName.toLowerCase())) &&
+      (filters.experience.length === 0 || jobs.minExp <= Math.max(...seletedYearsOfExperience)) &&
+      (filters.salary.length === 0 || jobs.maxJdSalary <= Math.max(...salary))
+
+    )
   });
 };
 
@@ -66,6 +78,7 @@ const jobSlice = createSlice({
   },
   reducers: {
     setNameFilter: (state, action) => {
+      console.log(action.payload);
       state.filters = action.payload;
       state.filterData = getFilteredData(state.data, state.filters);
     },

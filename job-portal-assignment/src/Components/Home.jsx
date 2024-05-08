@@ -74,6 +74,7 @@ const Home = () => {
               maxSalary={job.maxJdSalary}
               minExp={job.minExp}
               maxExp={job.maxExp}
+              minSalary={job.minJdSalary}
             />
           </Grid>
         ))}
