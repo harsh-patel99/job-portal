@@ -103,9 +103,9 @@ const JobCards = ({
         </Box>
         <Box textAlign="left">
           <Typography color="#8B8B84" fontWeight="600">
-            Minimum Experience
+            Experience
           </Typography>
-          <Typography>{`${minExp ?? maxExp ? maxExp : 0} Years`}</Typography>
+          <Typography>{`${minExp ? minExp : 0} - ${maxExp ? maxExp : 0} Years`}</Typography>
         </Box>
         <Box>
           <StyledButton

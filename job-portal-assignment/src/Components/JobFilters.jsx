@@ -12,7 +12,6 @@ const animatedComponents = makeAnimated();
 
 const JobFilters = ({ values, handleChange, setFieldValue, data }) => {
   const { roles, location, experience, remote, salary, companyName } = values;
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid
@@ -52,7 +51,10 @@ const JobFilters = ({ values, handleChange, setFieldValue, data }) => {
             onChange={(value) => setFieldValue("experience", value)}
             value={experience}
             isMulti
-            options={[]}
+            options={Array.from({ length: 11 }, (x, i) => i).map((val) => ({
+              label: val === 10 ? `${val}+` : val,
+              value: val,
+            }))}
             placeholder="Experience"
           />
         </Grid>
@@ -79,7 +81,9 @@ const JobFilters = ({ values, handleChange, setFieldValue, data }) => {
             onChange={(value) => setFieldValue("salary", value)}
             value={salary}
             isMulti
-            options={[]}
+            options={Array
+              .from({ length: 11 }, (x, i) => (i + 1) * 10)
+              .map((val) => ({ label: `$ ${val}K`, value: val }))}
             placeholder="Minimum Base Pay"
           />
         </Grid>

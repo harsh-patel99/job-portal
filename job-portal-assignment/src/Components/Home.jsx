@@ -6,14 +6,16 @@ import { Box, Grid } from "@mui/material";
 
 import JobFilters from "./JobFilters";
 import JobCards from "./JobCards";
-import { fetchJobs } from "../redux/slice/jobSlice";
+import { fetchJobs, setNameFilter } from "../redux/slice/jobSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
 
   const jobsData = useSelector((state) => state.jobs.data);
+  const filteredData = useSelector((state) => state.jobs.filterData);
   const loading = useSelector((state) => state.jobs.isLoading);
   const limit = useSelector((state) => state.jobs.limit);
+
 
   const { values, handleChange, setFieldValue } = useFormik({
     initialValues: {
@@ -26,7 +28,10 @@ const Home = () => {
     },
   });
 
+  
   useEffect(() => {
+
+    //logic for Inifinite Scrolling
     const handleScroll = () => {
       if (
         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
@@ -36,14 +41,17 @@ const Home = () => {
       }
     };
 
-    if (!jobsData.length) {
-      dispatch(fetchJobs(limit));
-    }
-
+    //dispatched action when filters are selected
+    dispatch(setNameFilter(values));
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [dispatch, loading, limit,jobsData.length]);
+  }, [loading, values]);
 
+  useEffect(() => {
+    if (!jobsData?.length) {
+      dispatch(fetchJobs(limit));
+    }
+  }, []);
 
   return (
     <Box m={5}>
@@ -54,9 +62,10 @@ const Home = () => {
         data={jobsData}
       />
       <Grid container columns={{ xs: 12, sm: 12, md: 12 }}>
-        {jobsData?.map((job) => (
-          <Grid item xs={12} sm={6} md={3} key={job.jdUid}>
+        {(filteredData?.length ? filteredData : jobsData)?.map((job, i) => (
+          <Grid item xs={12} sm={6} md={3} key={i}>
             <JobCards
+              key={i}
               logo={job.logoUrl}
               location={job.location}
               jobName={job.companyName}
